@@ -35,7 +35,7 @@
       user : "root",
       host : "192.210.139.195",
       ref  : "origin/master",
-      repo : "git@github.com:repo.git",
+      repo : "git@github.com:jgimbel/UCCompanion.git",
       path : "/var/www/production",
       "post-deploy" : "pm2 startOrRestart ecosystem.json5 --env production"
     }
