@@ -1,7 +1,0 @@
-var express = require('express');
-var router = module.exports = express.Router();
-module.exports = function() {
-    require('./auth')(router);
-    require('./home')(router);
-    return router;
-};
