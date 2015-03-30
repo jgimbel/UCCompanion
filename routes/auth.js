@@ -9,21 +9,21 @@ module.exports = function(router) {
     
     router.get("/auth/twitter", passport.authenticate('twitter'));
     router.get('/auth/twitter/callback', passport.authenticate('twitter', {
-        successRedirect: '/dashboard',
+        successRedirect: '/presentation',
         failureRedirect: '/auth/login'
     }));
     router.get("/auth/google", passport.authenticate('google', {
         scope: ['profile', 'email']
     }));
     router.get('/auth/google/callback', passport.authenticate('google', {
-        successRedirect: '/dashboard',
+        successRedirect: '/presentation',
         failureRedirect: '/auth/login'
     }));
     router.get("/auth/facebook", passport.authenticate('facebook', {
         scope: ['email', 'user_friends']
     }));
     router.get('/auth/facebook/callback', passport.authenticate('facebook', {
-        successRedirect: '/dashboard',
+        successRedirect: '/presentation',
         failureRedirect: '/auth/login'
     }));
     
