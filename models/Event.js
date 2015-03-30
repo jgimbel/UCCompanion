@@ -3,10 +3,13 @@ var mongoose = require('mongoose');
 // Define the schema for a user
 var event = new mongoose.Schema({
     Speaker: String,
-    Link: String,
+    Title: String,
+    BIO: String,
+    Position: String,
+    Employer: String,
     Name: String,
     Description: String,
-    Time: Date,
+    time: Date,
     Room: String,
     Attending: [{
         type: mongoose.Schema.Types.ObjectId,

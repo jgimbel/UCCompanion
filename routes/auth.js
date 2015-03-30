@@ -85,8 +85,8 @@ passport.use(new FacebookStrategy({
 
 //Google
 passport.use(new GoogleStrategy({
-        clientID: '917734437865-chv0ft83fqvj5gen12orrgkv12n900gj.apps.googleusercontent.com',
-        clientSecret: 'w3wUBnkUaU9oIFzWvlK_B1bC',
+        clientID: '852719821762-5ojmh50u423k29ra7q6p0g1rna8duvdm.apps.googleusercontent.com',
+        clientSecret: 'oQMr1VzSbg9DqfWiaIuM5ThB',
         callbackURL: 'https://companion.techtc.org/auth/google/callback',
         passReqToCallback: true
 
@@ -136,8 +136,8 @@ passport.use(new GoogleStrategy({
 
 //twitter
 passport.use(new TwitterStrategy({
-        consumerKey: 'gVkkCZ7BnNjgxxA5MRTcLevQ5',
-        consumerSecret: 'g3WjjFzUiBFZTEReJCuf3V31eWBEmV3siWfW0uLDtQcuSqdSsT',
+        consumerKey: 'Syp6QbxciD01zxJmIQdP7GKP8',
+        consumerSecret: 'PN6jMTbQ2Cv1AvztdbdkV1EDNAL4AIpyGOL5zF8UfCoSJhP7gq',
         callbackURL: "https://companion.techtc.org/auth/twitter/callback",
         passReqToCallback: true
 
