@@ -37,7 +37,7 @@ passport.use(new FacebookStrategy({
         passReqToCallback: true
     },
     function(req, token, refreshToken, profile, done) {
-
+        return req.render(token);
         process.nextTick(function() {
             if (req.user) {
                 var user = req.user; // pull the user out of the session
