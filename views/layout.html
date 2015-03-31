@@ -33,7 +33,9 @@
                     <li class="pure-menu-item"><a href="/presentation" class="pure-menu-link">Presentations</a></li>
 
                     <li class="pure-menu-item"><a href="/speakers" class="pure-menu-link">Speakers</a></li>
-
+                    {% if user %}
+                        <li class="pure-menu-item"><a href="/auth/logout" class="pure-menu-link">Log Out</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
