@@ -1,0 +1,13 @@
+{% extends "layout.html" %} 
+{% block body %}
+<div class="header">
+    <h1>{{title}}</h1>
+    <h2>Leaders Building Leaders 2015</h2>
+</div>
+{% for event in events %}
+    {{event.Speaker}}
+    <br/>
+    {{event.Position}} at 
+    {{event.Employer}}
+{% endfor %}
+{% endblock %}
