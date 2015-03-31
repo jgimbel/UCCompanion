@@ -1,0 +1,12 @@
+{% for event in events %}
+    {{event.Speaker}}
+    <br/>
+    {{event.Room}}
+<br/>
+    {{event.Title}}
+<br/>
+    {{event.time}}
+<br/>
+    {{event.Position}} at 
+    {{event.Employer}}
+{% endfor %}
