@@ -18,7 +18,7 @@ function presentation(req, res, next) {
         if(err) return err;
         
         return res.render("presentation", {
-            title: "UC Companion",
+            title: "Presentations - UC Companion",
             events: e
         });
     })
