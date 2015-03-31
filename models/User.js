@@ -32,7 +32,7 @@ user.methods.ConnectedFriends = function(callback) {
                     $elemMatch: {
                         $eq: this.facebook.id
                     }
-                }]).exec(callback);
+                }}]).exec(callback);
         }
         var users = mongoose.model('user', user);
         module.exports = users;
