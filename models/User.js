@@ -19,8 +19,11 @@ var user = new mongoose.Schema({
         token: String,
         email: String,
         name: String
-    }
+    },
+    friends: [String]
 });
-
+user.methods.ConnectedFriends = function(callback){
+     mongoose.models["user"].where('facebook.id').in(this.friends).exec(callback);
+}
 var users = mongoose.model('user', user);
 module.exports = users;

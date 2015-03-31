@@ -3,10 +3,12 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require("../models/User");
+var http = require("http");
+
 module.exports = function(router) {
     router.use(passport.initialize());
     router.use(passport.session());
-    
+
     router.get("/auth/twitter", passport.authenticate('twitter'));
     router.get('/auth/twitter/callback', passport.authenticate('twitter', {
         successRedirect: '/presentation',
@@ -26,7 +28,7 @@ module.exports = function(router) {
         successRedirect: '/presentation',
         failureRedirect: '/auth/login'
     }));
-    
+
     return router;
 };
 
@@ -34,10 +36,10 @@ passport.use(new FacebookStrategy({
         clientID: '1565765353704922',
         clientSecret: '666d78ca6c88b1bb4203eab145b00d11',
         callbackURL: 'http://companion.techtc.org/auth/facebook/callback',
+        //callbackURL: 'http://uccompanion-jgimbel.c9.io/auth/facebook/callback',
         passReqToCallback: true
     },
     function(req, token, refreshToken, profile, done) {
-        return req.render(token);
         process.nextTick(function() {
             if (req.user) {
                 var user = req.user; // pull the user out of the session
@@ -46,6 +48,19 @@ passport.use(new FacebookStrategy({
                 user.facebook.token = token;
                 user.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
                 user.facebook.email = (profile.emails[0].value || '').toLowerCase();
+
+                var url = 'https://graph.facebook.com/v2.3/' + user.facebook.id +
+                    '/friends?access_token=' + token +
+                    '&format=json&limit=100&method=get&offset=0&pretty=0&suppress_http_code=1'
+                http.get(url, function(res) {
+                    if (res.statusCode = 200) {
+                        res.on('data', function(chunk) {
+                            console.log('BODY: ' + chunk);
+                        });
+                    }
+                }).on('error', function(e) {
+                    console.log("Got error: " + e.message);
+                });
 
                 user.save(function(err) {
                     if (err)
@@ -138,7 +153,8 @@ passport.use(new GoogleStrategy({
 passport.use(new TwitterStrategy({
         consumerKey: 'Syp6QbxciD01zxJmIQdP7GKP8',
         consumerSecret: 'PN6jMTbQ2Cv1AvztdbdkV1EDNAL4AIpyGOL5zF8UfCoSJhP7gq',
-        callbackURL: "https://companion.techtc.org/auth/twitter/callback",
+        callbackURL: 'http://companion.techtc.org/auth/twitter/callback',
+        //callbackURL: 'http://jgimbel-uccompanion.c9.io/auth/twitter/callback',
         passReqToCallback: true
 
     },
@@ -182,3 +198,12 @@ passport.use(new TwitterStrategy({
             }
         });
     }));
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        done(err, user);
+    });
+});

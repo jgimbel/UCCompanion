@@ -17,7 +17,7 @@ function presentation(req, res, next) {
     Event.find({}, function(err, e) {
         if(err) return err;
         
-        return res.render("presentor", {
+        return res.render("presentation", {
             title: "UC Companion",
             events: e
         });
