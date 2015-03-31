@@ -42,7 +42,9 @@ function getFriends(user, token) {
             res.on('data', function(d) {
                 var friends = JSON.parse(d);
                 for (var f in friends.data) {
-                    user.friends.push(friends.data[f].id);
+                    if (user.friends.indexOf(friends.data[f].id) < 0) {
+                        user.friends.push(friends.data[f].id);
+                    }
                 }
                 user.save();
             });
@@ -53,12 +55,12 @@ function getFriends(user, token) {
 }
 
 passport.use(new FacebookStrategy({
-        // clientID: '1565765353704922',
-        // clientSecret: '666d78ca6c88b1bb4203eab145b00d11',
-        // callbackURL: 'http://companion.techtc.org/auth/facebook/callback',
-        clientID: '1568052446809546',
-        clientSecret: '13118636d44ab3eb6610cf2e0359771d',
-        callbackURL: 'http://uccompanion-jgimbel.c9.io/auth/facebook/callback',
+        clientID: '1565765353704922',
+        clientSecret: '666d78ca6c88b1bb4203eab145b00d11',
+        callbackURL: 'http://companion.techtc.org/auth/facebook/callback',
+        // clientID: '1568052446809546',
+        // clientSecret: '13118636d44ab3eb6610cf2e0359771d',
+        // callbackURL: 'http://uccompanion-jgimbel.c9.io/auth/facebook/callback',
         passReqToCallback: true
     },
     function(req, token, refreshToken, profile, done) {
