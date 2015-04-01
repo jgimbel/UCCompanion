@@ -23,16 +23,17 @@ var user = new mongoose.Schema({
     friends: [String]
 });
 user.methods.ConnectedFriends = function(callback) {
-        mongoose.models["user"].or([{
-                'facebook.id': {
-                    $in: this.friends
-                }
-            }, {
-                friends: {
-                    $elemMatch: {
-                        $eq: this.facebook.id
-                    }
-                }}]).exec(callback);
+    mongoose.models["user"].or([{
+        'facebook.id': {
+            $in: this.friends
         }
-        var users = mongoose.model('user', user);
-        module.exports = users;
+    }, {
+        friends: {
+            $elemMatch: {
+                $eq: this.facebook.id
+            }
+        }
+    }]).distinct('_id', callback);
+}
+var users = mongoose.model('user', user);
+module.exports = users;

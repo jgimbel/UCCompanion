@@ -28,10 +28,10 @@ function presentation(req, res, next) {
 function speakers(req, res, next) {
     Event.find({}, function(err, e) {
         if(err) return err;
-        
+        console.log(e);
         return res.render("speakers", {
             title: "Presentations - UC Companion",
             events: e
         });
-    })
+    });
 }

@@ -1,19 +1,14 @@
-{% extends "layout.html" %} 
-{% block body %}
-<div class="header">
-    <h1>{{title}}</h1>
-    <h2>Leaders Building Leaders 2015</h2>
-</div>
-{% for event in events %}
-    {{event.Speaker}}
-    <br/>
-    {{event.Room}}
-<br/>
-    {{event.Title}}
-<br/>
-    {{event.time}}
-<br/>
-    {{event.Position}} at 
-    {{event.Employer}}
-{% endfor %}
+{% extends "layout.html" %} {% block body %}
+    <div class="header">
+        <h1>{{title}}</h1>
+        <h2>Leaders Building Leaders 2015</h2>
+    </div>
+    {% for event in events %}
+        <br/> {{event.Speaker}}
+        <br/> {{event.Room}}
+        <br/> {{event.Title}}
+        <br/> {{event.time}}
+        <br/> {{event.Position}} at {{event.Employer}}
+        <br/> 
+    {% endfor %} 
 {% endblock %}

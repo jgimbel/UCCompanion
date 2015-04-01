@@ -9,7 +9,7 @@ var event = new mongoose.Schema({
     Employer: String,
     Name: String,
     Description: String,
-    time: Date,
+    time: String,
     Room: String,
     Attending: [{
         type: mongoose.Schema.Types.ObjectId,
