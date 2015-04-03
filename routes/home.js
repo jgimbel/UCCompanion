@@ -117,7 +117,7 @@ function comment(req, res, next) {
         Event: req.body.id
     }, function(err, com) {
         if (err) return err;
-        if (com) {
+        if (com.length > 1) {
             com.Message = req.body.Message || com.Message;
             com.Stars = req.body.Stars || com.Stars;
             com.save();

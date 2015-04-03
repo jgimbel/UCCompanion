@@ -12,7 +12,9 @@
         <p>{{event.Description |replace("\n","</p><p>") | safe}}</p>
         
         <h3 class=event-presentation__callout>Did you enjoy this presentation?</h3>
+        {% if feedback %}
         {% if user %}
+        
         <form id="{{event._id}}" class="pure-form" method="post" action="/">
         <h1 class="event-presentation__rating">
             <input type="hidden" value="{{event._id}}">
@@ -23,15 +25,19 @@
             <i class="fa fa-heart-o fw"></i>
         </h1>
         </form>
-        <form class="pure-form">
+        <form class="pure-form" class="pure-form" method="post" action="/comment">
+            <input type="hidden" name="id" value="{{event._id}}">
             <fieldset class="pure-group">
-                <textarea class="pure-input-1-2" placeholder="Leave a comment on the presentation" required></textarea></fieldset>
+                <textarea class="pure-input-1-2" name="Message" placeholder="Leave a comment on the presentation" required></textarea></fieldset>
             </fieldset>
             <button type="submit" class="event-presentation__feedback pure-button">Comment</button>
         </form>
         <small><i>All comments are subject to approval.</i></small>
         {% else %}
             <h4 class="event-presentation_login">You need to <a href="/">login</a> to leave feedback</h4>
+        {% endif %}
+        {% else %}
+            <h4 class="event-presentation_login">Feedback is currently disabled.</h4>
         {% endif %}
     </section>
     <hr>
