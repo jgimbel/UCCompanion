@@ -5,7 +5,7 @@ module.exports = function(router) {
     router.get("/", index);
     router.get("/presentation", presentations);
     router.get("/presentation/:id", presentation);
-    router.get("/speakers/:id", speakers);
+    router.get("/speakers/:id", speaker);
     router.get("/speakers", speakers);
     router.post("/comment", comment);
     router.param('id', function(req, res, next, id) {
@@ -60,7 +60,6 @@ function speaker(req, res, next) {
         _id: req.id
     }, function(err, e) {
         if (err) return err;
-        console.log(e);
         return res.render("speakers", {
             title: "Presentations - UC Companion",
             events: e
@@ -70,7 +69,6 @@ function speaker(req, res, next) {
 function speakers(req, res, next) {
     Event.find({}, function(err, e) {
         if (err) return err;
-        console.log(e);
         return res.render("speakers", {
             title: "Presentations - UC Companion",
             events: e
