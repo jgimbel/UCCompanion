@@ -12,7 +12,6 @@
         <p>{{event.Description |replace("\n","</p><p>") | safe}}</p>
         
         <h3 class=event-presentation__callout>Did you enjoy this presentation?</h3>
-        {% if feedback %}
         {% if user %}
         
         <form id="{{event._id}}" class="pure-form" method="post" action="/">
@@ -35,9 +34,6 @@
         <small><i>All comments are subject to approval.</i></small>
         {% else %}
             <h4 class="event-presentation_login">You need to <a href="/">login</a> to leave feedback</h4>
-        {% endif %}
-        {% else %}
-            <h4 class="event-presentation_login">Feedback is currently disabled.</h4>
         {% endif %}
     </section>
     <hr>

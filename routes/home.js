@@ -58,6 +58,7 @@ function presentations(req, res, next) {
 
         return res.render("presentation", {
             title: "Presentations - UC Companion",
+            feedback: "true",
             events: e,
             user: req.user
         });
@@ -71,6 +72,7 @@ function presentation(req, res, next) {
         if (err) return err;
         return res.render("presentation", {
             title: "Presentation - UC Companion",
+            feedback: "true",
             event: e,
             user: req.user
         });
@@ -112,12 +114,12 @@ function speakers(req, res, next) {
 
 function comment(req, res, next) {
     if (!req.user) return res.redirect('/');
-    Comment.find({
+    Comment.findOne({
         user: req.user.id,
         Event: req.body.id
     }, function(err, com) {
         if (err) return err;
-        if (com.length > 1) {
+        if (com) {
             com.Message = req.body.Message || com.Message;
             com.Stars = req.body.Stars || com.Stars;
             com.save();
@@ -131,15 +133,15 @@ function comment(req, res, next) {
         }, function(err, event) {
             if (err) return err;
 
-            var Message = req.body.Message || com.Message;
-            var Stars = req.body.Stars || com.Stars;
-            var com = new Comment({
+            var Message = req.body.Message || "";
+            var Stars = req.body.Stars || 0;
+            var c = new Comment({
                 User: req.user.id,
                 Event: event._id,
                 Message: Message,
                 Stars: Stars
             });
-            com.save();
+            c.save();
             return res.json({
                 status: "Success"
             });
