@@ -26,7 +26,7 @@ var user = new mongoose.Schema({
     }]
 });
 user.methods.ConnectedFriends = function(callback) {
-    mongoose.models["user"].or([{
+    mongoose.models["user"].find().or([{
         'facebook.id': {
             $in: this.friends
         }

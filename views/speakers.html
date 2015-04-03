@@ -7,7 +7,7 @@
 <div class="content">
 {% for event in events %}
     <section class="event-speakers">
-        <h2>{{event.Speaker}}</h2>
+        <h2 id="{{event.Speaker| replace(" ", "_")}}">{{event.Speaker}}</h2>
         <h3>{{event.Position}} <small> at 
         {{event.Company}}</small></h3>
         <p>{{event.Bio | replace("\n","</p><p>") | safe}}</p>

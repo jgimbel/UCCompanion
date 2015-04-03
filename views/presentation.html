@@ -7,17 +7,32 @@
     {% for event in events %}
     <section class="event-presentation">
         <h2 class="event-presentation__title">{{event.Title |replace('“', '')|replace('”','') }} </h2>
-        <h3 class="event-presentation__speaker">by {{event.Speaker}}</h3>
+        <h3 class="event-presentation__speaker">by <a href="/speakers#{{event.Speaker | replace(" ", "_")}}">{{event.Speaker}}</a></h3>
         <h4 class="event-presentation__locale">Room {{event.Room}} - {{event.Time}}</h4>
         <p>{{event.Description |replace("\n","</p><p>") | safe}}</p>
+        
+        <h3 class=event-presentation__callout>Did you enjoy this presentation?</h3>
+        {% if user %}
+        <form id="{{event._id}}" class="pure-form" method="post" action="/">
         <h1 class="event-presentation__rating">
-            <i class="fa fa-star-o fw"></i>
-            <i class="fa fa-star-o fw"></i>
-            <i class="fa fa-star-o fw"></i>
-            <i class="fa fa-star-o fw"></i>
-            <i class="fa fa-star-o fw"></i>
+            <input type="hidden" value="{{event._id}}">
+            <i class="fa fa-heart-o fw"></i>
+            <i class="fa fa-heart-o fw"></i>
+            <i class="fa fa-heart-o fw"></i>
+            <i class="fa fa-heart-o fw"></i>
+            <i class="fa fa-heart-o fw"></i>
         </h1>
-        <button class="event-presentation__feedback pure-button">Leave a Comment</button>
+        </form>
+        <form class="pure-form">
+            <fieldset class="pure-group">
+                <textarea class="pure-input-1-2" placeholder="Leave a comment on the presentation" required></textarea></fieldset>
+            </fieldset>
+            <button type="submit" class="event-presentation__feedback pure-button">Comment</button>
+        </form>
+        <small><i>All comments are subject to approval.</i></small>
+        {% else %}
+            <h4 class="event-presentation_login">You need to <a href="/">login</a> to leave feedback</h4>
+        {% endif %}
     </section>
     <hr>
     {% endfor %}

@@ -5,8 +5,17 @@
     <h2>Leaders Building Leaders 2015</h2>
 </div>
 <div class="content">
-    {%for friend in friends %}
-        {{friend.name}}
+    {% if not friends %}
+        <h2 class="friends-header">It appears that none of your friends have connected yet, try again later.</h2>
+    {% else %}
+        <h3 class="friends-header">Friends who have also connected</h3>
+    {% endif %}
+    {% for friend in friends %}
+        <div class="friend">
+            <img src="http://graph.facebook.com/{{friend.id}}/picture?type=normal&width=360&height=360"/>
+            <h3>{{friend.name}}</h3>
+        </div>
+        
     {% endfor %}
 </div>
 {% endblock %}

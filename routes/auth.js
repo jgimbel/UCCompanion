@@ -33,17 +33,13 @@ module.exports = function(router) {
     return router;
 };
 
-function getFriends(user, token) {
+function getFriends(user, callback) {
     var url = 'https://graph.facebook.com/v2.3/' + user.facebook.id +
-        '/friends?access_token=' + token +
+        '/friends?access_token=' + user.facebook.token +
         '&format=json&limit=100&method=get&offset=0&pretty=0&suppress_http_code=1';
     http.get(url, function(res) {
         if (res.statusCode == 200) {
-            res.on('data', function(d) {
-                var friends = JSON.parse(d);
-                user.friends = friends;
-                user.save();
-            });
+            res.on('data', callback);
         }
     }).on('error', function(e) {
         console.log("Got error: " + e.message);
@@ -51,12 +47,12 @@ function getFriends(user, token) {
 }
 
 passport.use(new FacebookStrategy({
-        clientID: '1565765353704922',
-        clientSecret: '666d78ca6c88b1bb4203eab145b00d11',
-        callbackURL: 'http://companion.techtc.org/auth/facebook/callback',
-        // clientID: '1568052446809546',
-        // clientSecret: '13118636d44ab3eb6610cf2e0359771d',
-        // callbackURL: 'http://uccompanion-jgimbel.c9.io/auth/facebook/callback',
+        // clientID: '1565765353704922',
+        // clientSecret: '666d78ca6c88b1bb4203eab145b00d11',
+        // callbackURL: 'http://companion.techtc.org/auth/facebook/callback',
+        clientID: '1568052446809546',
+        clientSecret: '13118636d44ab3eb6610cf2e0359771d',
+        callbackURL: 'http://uccompanion-jgimbel.c9.io/auth/facebook/callback',
         passReqToCallback: true
     },
     function(req, token, refreshToken, profile, done) {
@@ -68,12 +64,17 @@ passport.use(new FacebookStrategy({
                 user.facebook.token = token;
                 user.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
                 user.facebook.email = (profile.emails[0].value || '').toLowerCase();
-                getFriends(user, token);
-                user.save(function(err) {
-                    if (err)
-                        return done(err);
+                getFriends(user, function(d) {
+                    var friends = JSON.parse(d);
+                    if (friends.error) return done(friends.error);
+                    user.friends = friends.data;
 
-                    return done(null, user);
+                    user.save(function(err) {
+                        if (err)
+                            return done(err);
+
+                        return done(null, user);
+                    });
                 });
             }
             else {
@@ -84,9 +85,18 @@ passport.use(new FacebookStrategy({
                     if (err)
                         return done(err);
                     if (user) {
-                        getFriends(user, token);
-                        return done(null, user);
+                        getFriends(user, function(d) {
+                            var friends = JSON.parse(d);
+                            if (friends.error) return done(friends.error);
+                            user.friends = friends.data;
 
+                            user.save(function(err) {
+                                if (err)
+                                    return done(err);
+
+                                return done(null, user);
+                            });
+                        });
                     }
                     else {
                         var newUser = new User();
@@ -94,11 +104,17 @@ passport.use(new FacebookStrategy({
                         newUser.facebook.token = token;
                         newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
                         newUser.facebook.email = profile.emails[0].value;
-                        getFriends(user, token);
-                        newUser.save(function(err) {
-                            if (err)
-                                throw err;
-                            return done(null, newUser);
+                        getFriends(newUser, function(d) {
+                            var friends = JSON.parse(d);
+                            if (friends.error) return done(friends.error);
+                            newUser.friends = friends.data;
+
+                            newUser.save(function(err) {
+                                if (err)
+                                    return done(err);
+
+                                return done(null, newUser);
+                            });
                         });
                     }
                 });

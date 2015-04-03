@@ -1,5 +1,6 @@
 var Event = require("../models/Event");
 var Comment = require("../models/Comment");
+var http = require("https");
 
 module.exports = function(router) {
     router.get("/", index);
@@ -20,6 +21,23 @@ module.exports = function(router) {
     return router;
 };
 
+function getFriends(user, token) {
+    var url = 'https://graph.facebook.com/v2.3/' + user.facebook.id +
+        '/friends?access_token=' + token +
+        '&format=json&limit=100&method=get&offset=0&pretty=0&suppress_http_code=1';
+    http.get(url, function(res) {
+        if (res.statusCode == 200) {
+            res.on('data', function(d) {
+                var friends = JSON.parse(d);
+                user.friends = friends;
+                user.save();
+            });
+        }
+    }).on('error', function(e) {
+        console.log("Got error: " + e.message);
+    });
+}
+
 function index(req, res, next) {
     return res.render("index", {
         title: "UC Companion",
@@ -31,7 +49,7 @@ function presentations(req, res, next) {
 
     Event.find({}, function(err, e) {
         if (err) return err;
-        console.log(e);
+        //console.log(e);
         // var split = e.Description.split('\n');
         // var clean = split.filter(function(n){ return n});
         // var joined = clean.join('<\p><p>');
@@ -43,7 +61,7 @@ function presentations(req, res, next) {
             events: e,
             user: req.user
         });
-    })
+    });
 }
 
 function presentation(req, res, next) {
@@ -73,10 +91,10 @@ function speaker(req, res, next) {
 }
 
 function friends(req, res, next) {
-    if (!req.user) return res.sendStatus(403);
-    var f = req.user.ConnectedFriends();
+    if (!req.user) return res.redirect('/');
     res.render("friends", {
-        friends: f,
+        title: "Friends - UC Companoin",
+        friends: req.user.friends,
         user: req.user
     });
 }
@@ -93,7 +111,7 @@ function speakers(req, res, next) {
 }
 
 function comment(req, res, next) {
-    if (!req.user) return res.sendStatus(403);
+    if (!req.user) return res.redirect('/');
     Comment.find({
         user: req.user.id,
         Event: req.body.id
