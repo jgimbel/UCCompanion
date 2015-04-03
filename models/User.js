@@ -20,7 +20,10 @@ var user = new mongoose.Schema({
         email: String,
         name: String
     },
-    friends: [String]
+    friends: [{
+        id: String,
+        name: String
+    }]
 });
 user.methods.ConnectedFriends = function(callback) {
     mongoose.models["user"].or([{

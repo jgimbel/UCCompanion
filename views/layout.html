@@ -34,6 +34,9 @@
 
                     <li class="pure-menu-item"><a href="/speakers" class="pure-menu-link">Speakers</a></li>
                     {% if user %}
+                        {% if user.facebook.email %}
+                            <li class="pure-menu-item"><a href="/friends" class="pure-menu-link">My Friends</a></li>
+                        {% endif %}
                         <li class="pure-menu-item"><a href="/auth/logout" class="pure-menu-link">Log Out</a></li>
                     {% endif %}
                 </ul>

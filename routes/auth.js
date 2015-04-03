@@ -41,11 +41,7 @@ function getFriends(user, token) {
         if (res.statusCode == 200) {
             res.on('data', function(d) {
                 var friends = JSON.parse(d);
-                for (var f in friends.data) {
-                    if (user.friends.indexOf(friends.data[f].id) < 0) {
-                        user.friends.push(friends.data[f].id);
-                    }
-                }
+                user.friends = friends;
                 user.save();
             });
         }

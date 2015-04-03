@@ -6,10 +6,13 @@
 </div>
 <div class="content">
 {% for event in events %}
-    <h2>{{event.Speaker}}</h2>
-    <h3>{{event.Position}} <small> at 
-    {{event.Company}}</small></h3>
-    <p>{{event.Bio | replace("\n","</p><p>") | safe}}</p>
+    <section class="event-speakers">
+        <h2>{{event.Speaker}}</h2>
+        <h3>{{event.Position}} <small> at 
+        {{event.Company}}</small></h3>
+        <p>{{event.Bio | replace("\n","</p><p>") | safe}}</p>
+    </section>
+    <hr>
 {% endfor %}
 {% endblock %}
 </div>

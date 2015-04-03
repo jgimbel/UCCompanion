@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="header">
+    <h1>{{title}}</h1>
+    <h2>Leaders Building Leaders 2015</h2>
+</div>
+<div class="content">
+    {%for friend in friends %}
+        {{friend.name}}
+    {% endfor %}
+</div>
+{% endblock %}
