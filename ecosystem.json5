@@ -37,7 +37,7 @@
       ref  : "origin/master",
       repo : "git@github.com:jgimbel/UCCompanion.git",
       path : "/var/www/production",
-      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json5 --env production"
+      "post-deploy" : "npm install && mongoimport --db companion --collection events --type json --file convertcsv.json --jsonArray && pm2 startOrRestart ecosystem.json5 --env production"
     }
   }
 }
