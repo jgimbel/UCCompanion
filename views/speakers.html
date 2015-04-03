@@ -9,7 +9,7 @@
     <h2>{{event.Speaker}}</h2>
     <h3>{{event.Position}} <small> at 
     {{event.Company}}</small></h3>
-    <p>{{event.Bio|replace("\n","</p><p>") | safe}}</p>
+    <p>{{event.Bio | replace("\n","</p><p>") | safe}}</p>
 {% endfor %}
 {% endblock %}
 </div>

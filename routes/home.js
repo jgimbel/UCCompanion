@@ -70,7 +70,7 @@ function speakers(req, res, next) {
     Event.find({}, function(err, e) {
         if (err) return err;
         return res.render("speakers", {
-            title: "Presentations - UC Companion",
+            title: "Speakers - UC Companion",
             events: e
         });
     });
