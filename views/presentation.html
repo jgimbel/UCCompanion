@@ -1,14 +1,22 @@
 {% extends "layout.html" %} {% block body %}
-    <div class="header">
-        <h1>{{title}}</h1>
-        <h2>Leaders Building Leaders 2015</h2>
-    </div>
+<div class="header">
+    <h1>{{title}}</h1>
+    <h2>Leaders Building Leaders 2015</h2>
+</div>
+<div class="content">
     {% for event in events %}
-        <br/> {{event.Speaker}}
-        <br/> {{event.Room}}
-        <br/> {{event.Title}}
-        <br/> {{event.time}}
-        <br/> {{event.Position}} at {{event.Employer}}
-        <br/> 
-    {% endfor %} 
+    <h2>{{event.Title |replace('“', '')|replace('”','') }} </h2>
+    <h2><small>by {{event.Speaker}}</small></h2>
+    <h4>Room {{event.Room}} - {{event.Time}}</h4>
+    <h2>
+        <i class="fa fa-star-o fw"></i>
+        <i class="fa fa-star-o fw"></i>
+        <i class="fa fa-star-o fw"></i>
+        <i class="fa fa-star-o fw"></i>
+        <i class="fa fa-star-o fw"></i>
+    </h2>
+    <button class="pure-button">Leave a Comment</button>
+    <p> {{event.Description |replace("\n","</p><p>") | safe}}</p>
+    <br/> {% endfor %}
+</div>
 {% endblock %}

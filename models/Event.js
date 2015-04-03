@@ -4,12 +4,12 @@ var mongoose = require('mongoose');
 var event = new mongoose.Schema({
     Speaker: String,
     Title: String,
-    BIO: String,
+    Bio: String,
     Position: String,
-    Employer: String,
+    Company: String,
     Name: String,
     Description: String,
-    time: String,
+    Time: String,
     Room: String,
     Attending: [{
         type: mongoose.Schema.Types.ObjectId,

@@ -12,7 +12,8 @@ var comment = new mongoose.Schema({
         ref: 'event',
         required: true
     },
-    Comment: String
+    Comment: String,
+    Stars: Number
 });
 
 var comments = mongoose.model('comment', comment);
